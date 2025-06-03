@@ -1,12 +1,66 @@
 import React from "react";
 import { assets, viewApplicationsPageData } from "../assets/assets";
+import { useContext } from "react";
+import { AppContext } from "../context/Appcontext";
+import { useState ,useEffect} from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Loading from "../components/Loading";
 
 const ViewApplications = () => {
    
+const {backendUrl,companyToken} = useContext(AppContext);
 
-  const [openMenuIndex, setOpenMenuIndex] = React.useState(null);
+ const [applicants, setApplicants] = useState(false);
 
-  return (
+
+
+  //function to fetch company job applications data
+  const fetchCompanyJobApplications = async () => {
+
+    try {
+      
+      const {data} = await axios.get(backendUrl + "/api/company/applicants",{headers: {token: companyToken}});
+      console.log("jdjg",data);
+      
+      if (data.success) {
+        setApplicants(data.applications.reverse());
+      }else{
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
+  //function to update job application status (accept/reject)
+  const changeJobApplicationStatus = async (id, status) => {
+    try {
+      
+      const {data} = await axios.post(backendUrl + "/api/company/change-status", {id, status}, {headers: {token: companyToken}});
+
+      if (data.success) {
+        fetchCompanyJobApplications();
+      }else{
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+
+  useEffect(() => {
+     if(companyToken){
+      fetchCompanyJobApplications();
+     }
+  }, [companyToken]);
+
+  return applicants?applicants.length === 0?(
+  <div className='flex items-center justify-center h-[70vh]'>
+    <p className='text-xl sm:text-2xl'>No jobs available or posted</p></div>
+  ):(
     <div className="w-full px-6 py-8 bg-gray-50 min-h-screen font-sans">
       <div className="bg-white rounded-lg shadow border border-gray-200 overflow-x-auto">
         <table className="min-w-[1000px] w-full text-sm">
@@ -28,34 +82,34 @@ const ViewApplications = () => {
                 Resume
               </th>
               <th className="p-4 border-b border-gray-200 font-semibold text-center">
-                Action
+                Accept || Reject
               </th>
             </tr>
           </thead>
           <tbody>
-            {viewApplicationsPageData.map((applicant, index) => (
+            {applicants.filter(item => item.jobId && item.userId).map((applicant, index) => (
               <tr key={index} className="hover:bg-gray-50 transition">
                 <td className="p-4 border-b border-gray-100 w-16">
                   {index + 1}
                 </td>
                 <td className="p-4 border-b border-gray-100 min-w-[180px] flex items-center gap-3">
                   <img
-                    src={applicant.imgSrc}
+                    src={applicant.userId.image}
                     alt=""
                     className="w-10 h-10 rounded-full object-cover border border-gray-200"
                   />
-                  <span className="font-medium">{applicant.name}</span>
+                  <span className="font-medium">{applicant.userId.name}</span>
                 </td>
                 <td className="p-4 border-b border-gray-100 min-w-[150px]">
-                  {applicant.jobTitle}
+                  {applicant.jobId.title}
                 </td>
                 <td className="p-4 border-b border-gray-100 min-w-[120px]">
-                  {applicant.location}
+                  {applicant.jobId.location}
                 </td>
                 <td className="p-4 border-b border-gray-100 min-w-[120px] text-center">
                   <div className="flex justify-center">
                     <a
-                      href=""
+                      href={applicant.userId.resume}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-blue-700 bg-blue-100 px-4 py-2 rounded hover:bg-blue-200 transition font-medium text-sm justify-center mx-auto"
@@ -71,65 +125,33 @@ const ViewApplications = () => {
                   </div>
                 </td>
                 <td className="p-4 border-b border-gray-100 min-w-[120px] text-center">
-                  <div
-                    className="relative flex justify-center items-center"
-                    onMouseEnter={() => setOpenMenuIndex(index)}
-                    onMouseLeave={() => setOpenMenuIndex(null)}
-                  >
-                    <div className="flex items-center justify-center gap-2 w-full">
-                      {openMenuIndex === index ? (
-                        <div className="flex flex-col gap-3 bg-white border border-gray-200 rounded shadow-lg p-3 min-w-[120px] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                          <button
-                            className="w-full px-4 py-2 rounded-lg text-green-700 font-semibold flex items-center justify-center gap-2 hover:bg-green-100 transition text-base"
-                            tabIndex={-1}
-                            type="button"
-                          >
-                            <svg
-                              className="w-5 h-5"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                            Accept
-                          </button>
-                          <button
-                            className="w-full px-4 py-2 rounded-lg text-red-700 font-semibold flex items-center justify-center gap-2 hover:bg-red-100 transition text-base"
-                            tabIndex={-1}
-                            type="button"
-                          >
-                            <svg
-                              className="w-5 h-5"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18L18 6M6 6l12 12"
-                              />
-                            </svg>
-                            Reject
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          className="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 transition text-gray-700 font-semibold text-lg mx-auto flex items-center justify-center"
-                          type="button"
-                        >
-                          ...
-                        </button>
-                      )}
-                    </div>
+                  {applicant.status === "pending" ?(
+                    <div className="flex justify-center items-center gap-2">
+                    <button
+                    onClick={() => changeJobApplicationStatus(applicant._id, "Accepted")}
+                      className="p-2 rounded bg-green-100 hover:bg-green-200 transition text-green-700 flex items-center justify-center"
+                      type="button"
+                      title="Accept"
+                    >
+                      {/* Accept Icon (Checkmark) */}
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </button>
+                    <button
+                    onClick={() => changeJobApplicationStatus(applicant._id, "Rejected")}
+                      className="p-2 rounded bg-red-100 hover:bg-red-200 transition text-red-700 flex items-center justify-center"
+                      type="button"
+                      title="Reject"
+                    >
+                      {/* Reject Icon (X) */}
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
                   </div>
+                  ):
+                  (<div className="">{applicant.status}</div>)}
                 </td>
               </tr>
             ))}
@@ -137,7 +159,7 @@ const ViewApplications = () => {
         </table>
       </div>
     </div>
-  );
+  ) : <Loading />
 };
 
 export default ViewApplications;
