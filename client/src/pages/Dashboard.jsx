@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import AddJob from './AddJob';
 import { assets } from '../assets/assets';
-// import { AppContext } from '../context/Appcontext';
 import { AppContext } from '../context/Appcontext';
+ 
 
 const Dashboard = () => {
 

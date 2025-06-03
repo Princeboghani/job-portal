@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { assets, manageJobsData } from "../assets/assets";
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
- import { AppContext } from '../context/Appcontext';
+
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Loading from '../components/Loading';
+import { AppContext } from '../context/Appcontext';
 
 const ManageJobs = () => {
 

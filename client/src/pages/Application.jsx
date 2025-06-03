@@ -4,10 +4,11 @@ import Footer from "../components/Footer";
 import { assets, jobsApplied } from "../assets/assets";
 import moment from "moment";
 import { useContext } from "react";
-import { AppContext } from "../context/Appcontext";
+ 
 import { useAuth, useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { AppContext } from "../context/Appcontext";
 
 const Application = () => {
 

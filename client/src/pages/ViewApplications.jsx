@@ -1,11 +1,12 @@
 import React from "react";
 import { assets, viewApplicationsPageData } from "../assets/assets";
 import { useContext } from "react";
-import { AppContext } from "../context/Appcontext";
+ 
 import { useState ,useEffect} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
+import { AppContext } from "../context/Appcontext";
 
 const ViewApplications = () => {
    
