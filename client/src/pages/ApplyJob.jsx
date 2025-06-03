@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "@clerk/clerk-react";
 import { AppContext } from "../context/Appcontext";
  
+ 
 
 const ApplyJob = () => {
 
