@@ -9,8 +9,8 @@ import JobCart from "../components/JobCart";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { AppContext } from "../context/Appcontext";
 import { useAuth } from "@clerk/clerk-react";
+import { AppContext } from "../context/Appcontext";
 
 const ApplyJob = () => {
 
