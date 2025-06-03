@@ -59,7 +59,7 @@ const {backendUrl,companyToken} = useContext(AppContext);
 
   return applicants?applicants.length === 0?(
   <div className='flex items-center justify-center h-[70vh]'>
-    <p className='text-xl sm:text-2xl'>No jobs available or posted</p></div>
+    <p className='text-xl sm:text-2xl'>No Applications Available</p></div>
   ):(
     <div className="w-full px-6 py-8 bg-gray-50 min-h-screen font-sans">
       <div className="bg-white rounded-lg shadow border border-gray-200 overflow-x-auto">
