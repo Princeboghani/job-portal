@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { assets } from "../assets/assets";
-import { AppContext } from "../context/Appcontext";
+ 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AppContext } from "../context/Appcontext";
 
 const RecruiterLogin = () => {
 
