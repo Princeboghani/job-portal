@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import Quill from 'quill';
 import { JobCategories, JobLocations } from '../assets/assets';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { AppContext } from '../context/Appcontext';
+ import { AppContext } from '../context/AppContext';
 
 const AddJob = () => {
 
