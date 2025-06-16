@@ -10,7 +10,7 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "@clerk/clerk-react";
-import { AppContext } from "../context/Appcontext";
+import { AppContext } from "../context/AppContext";
  
  
 

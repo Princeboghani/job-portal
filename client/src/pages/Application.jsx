@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { AppContext } from "../context/Appcontext";
+import { AppContext } from "../context/AppContext";
  
  
 

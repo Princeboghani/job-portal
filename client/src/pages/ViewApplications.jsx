@@ -6,7 +6,7 @@ import { useState ,useEffect} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
-import { AppContext } from "../context/Appcontext";
+import { AppContext } from "../context/AppContext";
  
 
 const ViewApplications = () => {

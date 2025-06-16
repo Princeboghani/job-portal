@@ -5,7 +5,7 @@ import { assets } from "../assets/assets";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AppContext } from "../context/Appcontext";
+import { AppContext } from "../context/AppContext";
 
 const RecruiterLogin = () => {
 
